@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Plan study tasks, time focused sessions, and track your progress by course.">
+  <title>Study Session Tracker</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header><div class="shell header"><a class="brand" href="./">Study Session Tracker</a><a href="https://github.com/SakifT/study-session-tracker">Source code</a></div></header>
+  <main class="shell">
+    <div class="heading"><p class="eyebrow">Your study workspace</p><h1>One session at a time.</h1><p>Choose a task, set your timer, and keep track of the work you finish.</p></div>
+    <p id="storage-warning" role="alert" hidden></p>
+    <p id="notice" role="status" aria-live="polite">Ready when you are.</p>
+    <div class="workspace">
+      <section class="panel timer-panel" aria-labelledby="timer-heading">
+        <h2 id="timer-heading">Session timer</h2>
+        <label for="session-task">Study task</label><select id="session-task"><option value="">General study</option></select>
+        <div class="fields"><div><label for="mode">Session type</label><select id="mode"><option value="focus">Focus</option><option value="break">Break</option></select></div><div><label for="minutes">Minutes</label><input id="minutes" type="number" min="1" max="180" step="1" value="25" required></div></div>
+        <div id="clock" role="timer" aria-label="Time remaining">25:00</div>
+        <p id="timer-state">Ready to focus</p>
+        <div class="actions"><button id="start" class="primary">Start session</button><button id="reset" disabled>Reset</button></div>
+        <p class="hint">Completed focus sessions count toward your progress. Breaks and reset sessions do not.</p>
+      </section>
+      <section class="panel" aria-labelledby="tasks-heading">
+        <div class="section-head"><h2 id="tasks-heading">Study tasks</h2><span id="task-count" class="hint">0 open</span></div>
+        <form id="task-form">
+          <label for="task-title">Task</label><input id="task-title" maxlength="120" placeholder="Read chapter 3" required>
+          <label for="task-course">Course or subject</label><input id="task-course" maxlength="60" placeholder="Computer Science" required>
+          <div class="actions"><button id="save-task" class="primary" type="submit">Add task</button><button id="cancel-edit" type="button" hidden>Cancel edit</button></div>
+        </form>
+        <ul id="task-list" class="task-list"></ul>
+      </section>
+    </div>
+    <section class="progress-section" aria-labelledby="progress-heading">
+      <h2 id="progress-heading">Your progress</h2>
+      <div class="stats"><div><span>Focus today</span><strong id="today">0 min</strong></div><div><span>Total focus</span><strong id="total">0 min</strong></div><div><span>Sessions completed</span><strong id="sessions">0</strong></div></div>
+      <div class="summary-grid"><section class="panel"><h3>Time by course</h3><ul id="course-summary" class="summary-list"></ul></section><section class="panel"><h3>Time by day</h3><ul id="day-summary" class="summary-list"></ul></section></div>
+      <div class="panel history"><h3>Session history</h3><div class="table-wrap"><table><thead><tr><th scope="col">Finished</th><th scope="col">Task</th><th scope="col">Course</th><th scope="col">Focus time</th></tr></thead><tbody id="history"></tbody></table></div></div>
+    </section>
+  </main>
+  <footer class="shell">Saved in this browser. Use one tab at a time; clearing browser data removes your history.</footer>
+</body>
+</html>

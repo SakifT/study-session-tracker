@@ -1,0 +1,7 @@
+{
+  "name": "study-session-tracker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A browser-based study task manager, session timer, and progress tracker.",
+  "scripts": { "build": "node build.js" }
+}

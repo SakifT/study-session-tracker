@@ -75,7 +75,7 @@ In this repository, choose **Settings → Pages → Deploy from a branch → mai
 
 Use one tab at a time; simultaneous tab edits are not synchronized. Data stays in the current browser and origin; clearing browser data removes it. The timer counts elapsed clock time, including time while the page is closed, and records completion when the page next opens. It cannot detect whether the user was studying. There is no background alarm while the browser is closed. Completion dates use the local timezone. Changing the system clock may affect an active timer.
 
-Planned improvements: weekly study goals, task filtering, configurable automatic break cycles, and dark mode. These are future tasks, not implemented features.
+Planned improvements: weekly study goals, configurable automatic break cycles, and dark mode. These are future tasks, not implemented features.
 
 ## Validation performed
 
@@ -88,3 +88,11 @@ Click **Export CSV** beside Session history to download completed focus sessions
 CSV fields support commas, quotes, line breaks, and Unicode. Formula-like text receives a leading apostrophe so spreadsheet applications treat it as text. ChatGPT / Codex assisted with implementation and automated checks.
 
 Manual check: complete a focus session, export, and open the downloaded CSV. Verify its task, course, minutes, and timestamp. Reload and export again to confirm saved history is included.
+
+## Sprint 1 task filters (Issue #3)
+
+Use **Filter by course** and **Filter by status** above the task list. Course choices come from existing tasks; statuses are All statuses, Open, and Completed. Both filters apply together. **Clear filters** restores the full list, and a count shows how many tasks match. A message appears when nothing matches.
+
+Filters update after adding, editing, completing, reopening, or deleting a task. If a selected course no longer exists, the course filter resets to All courses. Filters affect only the task list: saved tasks, history, and timer choices remain intact. Reloading starts with all tasks visible.
+
+ChatGPT / Codex assisted with implementation and automated checks. Manual check: add tasks in two courses, complete one, try each filter and their combination, then clear the filters. Check that completing or reopening a task updates the filtered list.

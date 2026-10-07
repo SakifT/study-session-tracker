@@ -75,8 +75,16 @@ In this repository, choose **Settings → Pages → Deploy from a branch → mai
 
 Use one tab at a time; simultaneous tab edits are not synchronized. Data stays in the current browser and origin; clearing browser data removes it. The timer counts elapsed clock time, including time while the page is closed, and records completion when the page next opens. It cannot detect whether the user was studying. There is no background alarm while the browser is closed. Completion dates use the local timezone. Changing the system clock may affect an active timer.
 
-Planned improvements: CSV export, weekly study goals, task filtering, configurable automatic break cycles, and dark mode. These are future tasks, not implemented features.
+Planned improvements: weekly study goals, task filtering, configurable automatic break cycles, and dark mode. These are future tasks, not implemented features.
 
 ## Validation performed
 
 The static build and JavaScript syntax checks passed. Automated jsdom checks exercised task creation/editing/completion/reopening/deletion, pause/resume, restoring a running timer, exactly-once session recording, saved history, reset and break exclusion, and safe text rendering. A full visual browser check was not available in the development environment; use the manual check above in your browser.
+
+## Sprint 1 CSV export (Issue #1)
+
+Click **Export CSV** beside Session history to download completed focus sessions, newest first. The export contains the completion timestamp in UTC, task, course, and focus minutes. The button is disabled when history is empty. Breaks and unfinished sessions are not exported. Exporting does not change saved data.
+
+CSV fields support commas, quotes, line breaks, and Unicode. Formula-like text receives a leading apostrophe so spreadsheet applications treat it as text. ChatGPT / Codex assisted with implementation and automated checks.
+
+Manual check: complete a focus session, export, and open the downloaded CSV. Verify its task, course, minutes, and timestamp. Reload and export again to confirm saved history is included.

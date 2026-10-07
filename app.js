@@ -41,7 +41,27 @@ $('task-form').addEventListener('submit', event => {
   } else state.tasks.push({ id: crypto.randomUUID(), title, course, done: false });
   cancelEdit(); save(); renderTasks(); notify('Task saved.');
 });
+// Filters change only the displayed task list, never stored tasks or timer choices.
+function filterTasks(tasks, course, status) {
+  return tasks.filter(task => (!course || task.course === course) &&
+    (status === 'all' || (status === 'completed' ? !!task.done : !task.done)));
+}
+$('filter-course').addEventListener('change', renderTasks);
+$('filter-status').addEventListener('change', renderTasks);
+$('clear-filters').addEventListener('click', () => {
+  $('filter-course').value = '';
+  $('filter-status').value = 'all';
+  renderTasks();
+});
 function renderTasks() {
+  const previousCourse = $('filter-course').value;
+  const courses = [...new Set(state.tasks.map(task => task.course))].sort((a, b) => a.localeCompare(b));
+  $('filter-course').replaceChildren(new Option('All courses', ''));
+  courses.forEach(course => $('filter-course').add(new Option(course, course)));
+  $('filter-course').value = courses.includes(previousCourse) ? previousCourse : '';
+  const visibleTasks = filterTasks(state.tasks, $('filter-course').value, $('filter-status').value);
+  $('filter-summary').textContent = `Showing ${visibleTasks.length} of ${state.tasks.length} tasks`;
+  $('clear-filters').disabled = !$('filter-course').value && $('filter-status').value === 'all';
   const selected = state.timer?.taskId || $('session-task').value;
   $('session-task').replaceChildren(new Option('General study', ''));
   state.tasks.filter(t => !t.done).forEach(t => $('session-task').add(new Option(`${t.course} — ${t.title}`, t.id)));
@@ -50,7 +70,8 @@ function renderTasks() {
   $('task-list').replaceChildren();
   $('task-count').textContent = `${state.tasks.filter(t => !t.done).length} open`;
   if (!state.tasks.length) $('task-list').append(node('li', 'No tasks yet. Add your first study task above.', 'hint'));
-  state.tasks.forEach(t => {
+  if (state.tasks.length && !visibleTasks.length) $('task-list').append(node('li', 'No tasks match these filters. Change or clear the filters to see more tasks.', 'hint'));
+  visibleTasks.forEach(t => {
     const li = node('li');
     li.append(node('span', t.title, `task-title${t.done ? ' done' : ''}`), node('span', t.course, 'hint'));
     const actions = node('div', undefined, 'task-buttons');

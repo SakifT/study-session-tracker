@@ -20,6 +20,24 @@ function save() {
   catch { warn('Changes cannot be saved in this browser. Keep this tab open; your current work is only in memory.'); }
 }
 function notify(message) { $('notice').textContent = message; }
+const THEME_KEY = 'sakift-study-session-tracker-theme';
+function applyTheme(theme) {
+  const dark = theme === 'dark';
+  document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+  $('theme-toggle').setAttribute('aria-pressed', String(dark));
+}
+applyTheme(document.documentElement.dataset.theme);
+$('theme-toggle').addEventListener('click', () => {
+  const theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+  applyTheme(theme);
+  try {
+    localStorage.setItem(THEME_KEY, theme);
+    notify(`${theme === 'dark' ? 'Dark' : 'Light'} mode enabled.`);
+  } catch {
+    notify('Theme changed for this visit, but your browser could not save the preference.');
+  }
+});
+
 function node(tag, text, className) {
   const el = document.createElement(tag);
   if (text !== undefined) el.textContent = text;

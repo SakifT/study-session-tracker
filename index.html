@@ -5,11 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Plan study tasks, time focused sessions, and track your progress by course.">
   <title>Study Session Tracker</title>
+  <script>
+    // Apply the saved theme before rendering to avoid a flash of the wrong theme.
+    try {
+      if (localStorage.getItem('sakift-study-session-tracker-theme') === 'dark') {
+        document.documentElement.dataset.theme = 'dark';
+      }
+    } catch { /* The default light theme still works without browser storage. */ }
+  </script>
   <link rel="stylesheet" href="styles.css">
   <script src="app.js" defer></script>
 </head>
 <body>
-  <header><div class="shell header"><a class="brand" href="./">Study Session Tracker</a><a href="https://github.com/SakifT/study-session-tracker">Source code</a></div></header>
+  <header><div class="shell header"><a class="brand" href="./">Study Session Tracker</a><div class="header-controls"><button id="theme-toggle" type="button" aria-pressed="false">Dark mode</button><a href="https://github.com/SakifT/study-session-tracker">Source code</a></div></div></header>
   <main class="shell">
     <div class="heading"><p class="eyebrow">Your study workspace</p><h1>One session at a time.</h1><p>Choose a task, set your timer, and keep track of the work you finish.</p></div>
     <p id="storage-warning" role="alert" hidden></p>

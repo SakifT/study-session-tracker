@@ -75,7 +75,7 @@ In this repository, choose **Settings → Pages → Deploy from a branch → mai
 
 Use one tab at a time; simultaneous tab edits are not synchronized. Data stays in the current browser and origin; clearing browser data removes it. The timer counts elapsed clock time, including time while the page is closed, and records completion when the page next opens. It cannot detect whether the user was studying. There is no background alarm while the browser is closed. Completion dates use the local timezone. Changing the system clock may affect an active timer.
 
-Planned improvements: weekly study goals, configurable automatic break cycles, and dark mode. These are future tasks, not implemented features.
+Planned improvements: weekly study goals and configurable automatic break cycles. These are future tasks, not implemented features.
 
 ## Validation performed
 
@@ -96,3 +96,11 @@ Use **Filter by course** and **Filter by status** above the task list. Course ch
 Filters update after adding, editing, completing, reopening, or deleting a task. If a selected course no longer exists, the course filter resets to All courses. Filters affect only the task list: saved tasks, history, and timer choices remain intact. Reloading starts with all tasks visible.
 
 ChatGPT / Codex assisted with implementation and automated checks. Manual check: add tasks in two courses, complete one, try each filter and their combination, then clear the filters. Check that completing or reopening a task updates the filtered list.
+
+## Sprint 1 persistent dark mode (Issue #5)
+
+Use the **Dark mode** toggle in the header to switch between light and dark themes. The toggle indicates whether dark mode is active for assistive technology. Your choice is saved in a separate browser localStorage key and applied before rendering on the next visit. The initial default is light mode.
+
+Both themes cover panels, form controls, buttons, tables, text, and focus indicators. If storage is unavailable, toggling still works for the current visit and a message explains that the preference could not be saved. Task and session data are unchanged.
+
+ChatGPT / Codex assisted with implementation and automated checks. Manual check: enable dark mode, refresh, and confirm it remains enabled; switch to light mode and repeat. Also test task filters, the timer, and CSV export in dark mode.

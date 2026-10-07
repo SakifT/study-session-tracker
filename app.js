@@ -121,7 +121,35 @@ function summary(id, rows) {
   if (!rows.length) $(id).append(node('li', 'Complete a focus session to see your progress.', 'hint'));
   for (const [label, seconds] of rows) { const li = node('li'); li.append(node('span', label), node('strong', `${seconds / 60} min`)); $(id).append(li); }
 }
+// Quote every field and escape embedded quotes for spreadsheet-compatible CSV.
+function csvCell(value) {
+  let text = String(value);
+  // Keep user-entered spreadsheet formulas as literal text.
+  if (/^[\s]*[=+@-]/.test(text) || /^[\t\r\n]/.test(text)) text = "'" + text;
+  return '"' + text.replace(/"/g, '""') + '"';
+}
+function sessionsToCsv(sessions) {
+  const rows = [['Finished (UTC)', 'Task', 'Course', 'Focus time (minutes)']];
+  [...sessions].sort((a, b) => b.finished - a.finished).forEach(session => {
+    rows.push([new Date(session.finished).toISOString(), session.title, session.course, session.seconds / 60]);
+  });
+  return '\uFEFF' + rows.map(row => row.map(csvCell).join(',')).join('\r\n') + '\r\n';
+}
+$('export-csv').addEventListener('click', () => {
+  if (!state.sessions.length) return notify('Complete a focus session before exporting history.');
+  const blob = new Blob([sessionsToCsv(state.sessions)], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `study-history-${dayKey(Date.now())}.csv`;
+  document.body.append(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  notify(`Exported ${state.sessions.length} completed focus session${state.sessions.length === 1 ? '' : 's'}.`);
+});
 function renderProgress() {
+  $('export-csv').disabled = state.sessions.length === 0;
   const courses = new Map(), days = new Map();
   let total = 0;
   state.sessions.forEach(s => { total += s.seconds; courses.set(s.course, (courses.get(s.course)||0)+s.seconds); const day = dayKey(s.finished); days.set(day, (days.get(day)||0)+s.seconds); });

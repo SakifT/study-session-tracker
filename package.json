@@ -3,5 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "description": "A browser-based study task manager, session timer, and progress tracker.",
-  "scripts": { "build": "node build.js" }
+  "scripts": {
+    "build": "node build.js",
+    "test": "node --test filter-tasks.test.js",
+    "coverage": "c8 --include=filter-tasks.js --reporter=text --reporter=html node --test filter-tasks.test.js"
+  },
+  "devDependencies": {
+    "c8": "^12.0.0"
+  }
 }

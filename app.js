@@ -60,10 +60,7 @@ $('task-form').addEventListener('submit', event => {
   cancelEdit(); save(); renderTasks(); notify('Task saved.');
 });
 // Filters change only the displayed task list, never stored tasks or timer choices.
-function filterTasks(tasks, course, status) {
-  return tasks.filter(task => (!course || task.course === course) &&
-    (status === 'all' || (status === 'completed' ? !!task.done : !task.done)));
-}
+
 $('filter-course').addEventListener('change', renderTasks);
 $('filter-status').addEventListener('change', renderTasks);
 $('clear-filters').addEventListener('click', () => {

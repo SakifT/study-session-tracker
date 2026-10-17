@@ -5,7 +5,7 @@ function filterTasks(tasks, course, status) {
   return tasks.filter(task =>
     (!course || task.course === course) &&
     (status === 'all' ||
-      (status === 'completed' ? !!task.done : !task.done))
+      (status === 'completed' ? !task.done : !task.done))
   );
 }
 
